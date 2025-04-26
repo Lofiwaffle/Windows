@@ -160,19 +160,24 @@ widgets:
   apps:
     type: "yasb.applications.ApplicationsWidget"
     options:
-      container_padding:
-        top: 0
-        left: 0
-        bottom: 0
-        right: 0
       label: "{data}"
       app_list:
-        # - { icon: "\uf422", launch: "search" }
+        - { icon: "\uf422", launch: "search" }
         - { icon: "\ueb03", launch: "cmd /c Taskmgr" }
         - { icon: "\uf268",launch: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" }
         - { icon: "\uf489", launch: "wt" }
         # - { icon: "\uf1ff",launch: "Discord.exe" }
         - { icon: "\udb82\ude1e",launch: "Code.exe" }  
+      container_padding: 
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
   cpu:
     type: "yasb.cpu.CpuWidget"
     options:
