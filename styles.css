@@ -47,6 +47,108 @@
 }
 .widget .label {
     color: var(--text);
+    padding: 2px 2px;
+}
+.apps-widget {
+	padding: 0 4px 0 8px;
+}
+.apps-widget .label {
+	font-size: 14px;
+	padding: 0 8px;
+    color: var(--subtext0);
+}
+.apps-widget .label:hover {
+	color: var(--flamingo);
+}
+.uptime {
+	font-size: 14px;
+	margin-bottom: 10px;
+	color: var(--surface2);
+	font-weight: 600;
+ 
+}
+
+.update-check-widget {
+    padding: 0 0px 0 0px;
+}
+.update-check-widget .icon {
+    font-size: 14px;
+}
+.update-check-widget .widget-container.winget,
+.update-check-widget .widget-container.windows {
+    background: var(--teal);
+    margin: 7px 2px 7px 2px;
+    border-radius: 9px;
+    border: 2px solid var(--green);
+}
+.update-check-widget .widget-container.windows {
+    background: var(--lavender);
+    margin: 7px 2px 7px 2px;
+    border-radius: 9px;
+    border: 2px solid var(--blue);
+}
+.update-check-widget .widget-container.winget .icon,
+.update-check-widget .widget-container.windows .icon {
+    color: var(--rosewater);
+    margin: 0 1px 0 6px;
+}
+.update-check-widget .widget-container.winget .label,
+.update-check-widget .widget-container.windows .label {
+    margin: 0 6px 0 1px;
+    color: var(--rosewater);
+    font-weight: 900;
+    font-size: 14px;
+}
+.power-menu-widget .label {
+	color: #f38ba8;
+	font-size: px;
+}
+.power-menu-popup {
+	background-color: transparent	 
+}
+.power-menu-popup .button {
+	padding: 0;
+	width: 180px;
+	height: 230px;
+	border-radius: 8px;
+	background-color: var(--base);
+	color:var(--text);
+	border-left: 4px solid rgba(58, 59, 83, 0);
+    border-right: 4px solid rgba(58, 59, 83, 0);
+    border-top: 8px solid rgba(58, 59, 83, 0);
+    border-bottom: 8px solid rgba(58, 59, 83, 0);
+	margin: 0px;
+}
+.power-menu-popup .button.hover {
+	background-color:var(--surface0);
+	border-left: 4px solid var(--surface0);
+    border-right: 4px solid var(--surface0);
+    border-top: 8px solid var(--surface0);
+    border-bottom: 8px solid var(--surface0);
+}
+.power-menu-popup .button .label {
+	margin-bottom: 8px;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--surface2)
+ 
+}
+.power-menu-popup .button .icon {
+	font-size: 64px;
+	padding-top: 32px;
+	color: var(--surface2)
+}
+.power-menu-popup .button.cancel .icon {
+    padding: 0;
+    margin: 0;
+}
+.power-menu-popup .button.cancel .label {
+	color: var(--red);
+    margin: 0;
+}
+.power-menu-popup .button.cancel {
+    height: 32px;
+    border-radius: 4px;
 }
 /*WORKSPACES WIDGET*/
 .glazewm-workspaces {
