@@ -1,51 +1,39 @@
 watch_stylesheet: true
 watch_config: true
-debug: false
+debug: true
 bars:
   primary-bar:
     enabled: true
-    screens: ["*"]
+    screens: ['*'] 
     class_name: "yasb-bar"
     alignment:
       position: "top"
       center: false
-    animation:
-      enabled: true
-      duration: 1000
     blur_effect:
-      enabled: false 
-      acrylic: true 
+      enabled: false
+      acrylic: true
       dark_mode: true
       round_corners: false
       border_color: None
     window_flags:
+      always_on_top: true
       windows_app_bar: true
+      hide_on_fullscreen: true
     dimensions:
       width: "100%"
       height: 32
     padding:
-      top: 1
-      left: 0
-      bottom: 0
-      right: 0
+      top: 2
+      left: 12
+      bottom: 2
+      right: 12
     widgets:
-      left: [
-        "home",
-        "active_window",
-        "apps"
-      ]
-      center: [
-        "clock"
-      ]
-      right: [
-        "update",
-        "cpu",
-        "memory",
-        "wifi",
-        "media",
-        "volume",
-        "power_menu"
-        ]
+      left:
+        ["home","glazewm_workspaces","active_window"]
+      center:
+        ["clock"]
+      right:
+        ["update","apps","media","cpu","memory","wifi","volume","power_menu"]
 widgets:
   wifi:
       type: "yasb.wifi.WifiWidget"
@@ -54,21 +42,41 @@ widgets:
         label_alt: "{wifi_name} {wifi_strength}%"
         update_interval: 5000
         callbacks:
-          on_left: "exec cmd.exe /c start ms-settings:network"
+          on_left: "exec quick_settings"
           on_middle: "do_nothing"
-          on_right: "toggle_label"
-        container_padding:
-          top: 0
-          left: 8
-          bottom: 0
-          right: 8
+          on_right: "exec cmd.exe /c start ms-settings:network"
         wifi_icons: [
           "\udb82\udd2e",  # Icon for 0% strength
           "\udb82\udd1f",  # Icon for 1-20% strength
           "\udb82\udd22",  # Icon for 21-40% strength
           "\udb82\udd25",  # Icon for 41-80% strength
-          "\udb82\udd28"   # Icon for 81-100% strength
+          "\udb82\udd28"   # Icon for 81-100% strength 
         ]
+  glazewm_workspaces:
+    type: "glazewm.workspaces.GlazewmWorkspacesWidget"
+    options:
+      offline_label: "GlazeWM Offline"
+      hide_empty_workspaces: true
+      hide_if_offline: false      
+  media:
+      type: "yasb.media.MediaWidget"
+      options:
+        label: "{title}"
+        label_alt: "{artist}"
+        max_field_size:
+          label: 25
+          label_alt: 25
+        show_thumbnail: true
+        controls_hide: false
+        hide_empty: true
+        thumbnail_alpha: 80
+        thumbnail_padding: 8
+        thumbnail_corner_radius: 6
+        icons:
+          prev_track: "\ue892"
+          next_track: "\ue893"
+          play: "\ue768"
+          pause: "\ue769"
   update:
     type: "yasb.update_check.UpdateCheckWidget"
     options:
@@ -90,9 +98,81 @@ widgets:
       label_no_window: ""
       label_icon: true
       label_icon_size: 14
-      max_length: 32
+      max_length: 36
       max_length_ellipsis: "..."
-      monitor_exclusive: false 
+      monitor_exclusive: true
+  volume:
+      type: "yasb.volume.VolumeWidget"
+      options:
+        label: "<span>{icon}</span>"
+        volume_icons:
+          - "\ueee8"  # Icon for muted
+          - "\uf026"  # Icon for 0-10% volume
+          - "\uf027"  # Icon for 11-30% volume
+          - "\uf027"  # Icon for 31-60% volume
+          - "\uf028"  # Icon for 61-100% volume
+        callbacks:
+          on_middle: "exec cmd.exe /c start ms-settings:sound"
+          on_right: "exec quick_settings"
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%b %d, %H:%M}"
+      label_alt: "{%A, %d %B %Y %H:%M:%S}"
+      timezones: []
+      callbacks:
+        on_left: "toggle_label"
+        on_right: "toggle_calendar"
+      calendar: 
+        blur: True
+        round_corners: True
+        round_corners_type: "small"
+        border_color: "None"
+        alignment: "center"
+        direction: "down"
+        distance: 6
+      container_padding:
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+  power_menu:
+      type: "yasb.power_menu.PowerMenuWidget"
+      options:
+        label: "\uf011"
+        uptime: True
+        blur: False
+        blur_background: True
+        animation_duration: 200
+        button_row: 5
+        buttons:
+          shutdown: ["\uf011", "Shut Down"]
+          restart: ["\uead2", "Restart"]
+          signout: ["\udb80\udf43", "Sign out"]
+          hibernate: ["\uf28e", "Hibernate"]
+          sleep: ["\u23fe", "Sleep"]
+          cancel: ["", "Cancel"]
+      container_padding:
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+  apps:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      label: "{data}"
+      app_list:
+        # - { icon: "\uf422", launch: "search" }
+        - { icon: "\ueb03", launch: "cmd /c Taskmgr" }
+        - { icon: "\uf268",launch: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" }
+        - { icon: "\uf489", launch: "wt" }
+        # - { icon: "\uf1ff",launch: "Discord.exe" }
+        - { icon: "\udb82\ude1e",launch: "Code.exe" }  
   cpu:
     type: "yasb.cpu.CpuWidget"
     options:
@@ -132,22 +212,6 @@ widgets:
         left: 6
         bottom: 0
         right: 8
-  notifications:
-    type: "yasb.notifications.NotificationsWidget"
-    options:
-      label: "<span>\uf476</span> {count}"
-      label_alt: "{count} notifications"
-      hide_empty: true
-      tooltip: false
-      callbacks:
-        on_left: "toggle_notification"
-        on_right: "do_nothing"
-        on_middle: "toggle_label"
-      container_padding:
-        top: 0
-        left: 12
-        bottom: 0
-        right: 12
   home:
     type: "yasb.home.HomeWidget"
     options:
@@ -167,112 +231,3 @@ widgets:
         left: 12
         bottom: 0
         right: 12
-  media:
-    type: "yasb.media.MediaWidget"
-    options:
-      label: "{artist} - {title}"
-      label_alt: "{title}"
-      max_field_size:
-        label: 48
-        label_alt: 64
-      show_thumbnail: false
-      controls_only: false
-      controls_left: true
-      hide_empty: true
-      thumbnail_alpha: 150
-      thumbnail_padding: 8
-      thumbnail_corner_radius: 0
-      icons:
-        prev_track: "\uf048"
-        next_track: "\uf051"
-        play: "\uf04b"
-        pause: "\uf04c"
-      container_padding:
-        top: 0
-        left: 12
-        bottom: 0
-        right: 12
-  clock:
-    type: "yasb.clock.ClockWidget"
-    options:
-      label: "{%A, %d %B %Y %H:%M:%S}"
-      callbacks:
-        on_left: "toggle_calendar"
-      calendar: 
-        blur: True
-        round_corners: True
-        round_corners_type: "small"
-        border_color: "None"
-        alignment: "center"
-        direction: "down"
-        distance: 6
-      container_padding:
-        top: 0
-        left: 8
-        bottom: 0
-        right: 8
-  volume:
-    type: "yasb.volume.VolumeWidget"
-    options:
-      label: "<span>{icon}</span> {level}"
-      label_alt: "{volume}"
-      tooltip: false
-      volume_icons:
-        - "\ueee8"
-        - "\uf026"
-        - "\uf027"
-        - "\uf027"
-        - "\uf028"
-      callbacks:
-        on_left: "toggle_volume_menu"
-        on_right: "toggle_mute"
-      audio_menu:
-        blur: True
-        round_corners: True
-        round_corners_type: "small"
-        border_color: "None"
-        alignment: "right"
-        direction: "down"
-        distance: 6
-      container_padding:
-        top: 0
-        left: 8
-        bottom: 0
-        right: 8
-  power_menu:
-    type: "yasb.power_menu.PowerMenuWidget"
-    options:
-      label: "\uf011"
-      uptime: True
-      blur: False
-      blur_background: True
-      animation_duration: 200
-      button_row: 5
-      buttons:
-        shutdown: ["\uf011", "Shut Down"]
-        restart: ["\uead2", "Restart"]
-        signout: ["\udb80\udf43", "Sign out"]
-        hibernate: ["\uf28e", "Hibernate"]
-        sleep: ["\u23fe", "Sleep"]
-        cancel: ["", "Cancel"]
-      container_padding:
-        top: 0
-        left: 8
-        bottom: 0
-        right: 8
-  apps:
-    type: "yasb.applications.ApplicationsWidget"
-    options:
-      container_padding:
-        top: 0
-        left: 4
-        bottom: 0
-        right: 0
-      label: "{data}"
-      app_list:
-        # - { icon: "\uf422", launch: "search" }
-        - { icon: "\ueb03", launch: "cmd /c Taskmgr" }
-        - { icon: "\uf268",launch: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" }
-        - { icon: "\uf489", launch: "wt" }
-        # - { icon: "\uf1ff",launch: "Discord.exe" }
-        - { icon: "\udb82\ude1e",launch: "Code.exe" }
