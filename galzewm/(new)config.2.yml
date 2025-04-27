@@ -2,11 +2,11 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands: ['shell-exec zebar']
+  startup_commands: ['shell-exec yasb']
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
-  shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
+  shutdown_commands: ['shell-exec taskkill /IM yasb.exe /F']
 
   # Commands to run after the WM config is reloaded.
   config_reload_commands: []
@@ -48,7 +48,7 @@ gaps:
 
   # Gap between windows and the screen edge.
   outer_gap: 
-    top: '48px'
+    top: '2px'
     right: '1px'
     bottom: '1px'
     left: '1px'
@@ -120,7 +120,7 @@ window_behavior:
       shown_on_top: false
 
 workspaces:
-  - name: '1'
+  - name: ' 1'
   - name: '2'
   - name: '3'
   - name: '4'
@@ -134,7 +134,7 @@ window_rules:
   - commands: ['ignore']
     match:
       # Ignores any Zebar windows.
-      - window_process: { equals: 'zebar' }
+      - window_process: { equals: 'yasb', 'yasb.exe'}
 
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
@@ -147,6 +147,11 @@ window_rules:
         window_title: { regex: '.*? - Peek' }
       - window_process: { equals: 'Lively' }
         window_class: { regex: 'HwndWrapper' }
+  
+  - commands: ["set-floating"]
+    match:
+      - window_process: { equals: "Terminal" }
+        window_title: { equals: "pwsh in usmcb" }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -233,7 +238,7 @@ keybindings:
 
   # Close focused window.
   - commands: ['close']
-    bindings: ['alt+shift+q']
+    bindings: ['alt+q']
 
   # Kill GlazeWM process safely.
   - commands: ['wm-exit']
@@ -250,7 +255,7 @@ keybindings:
   # Launch CMD terminal. Alternatively, use `shell-exec wt` or
   # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
   # Terminal and Git Bash respectively.
-  - commands: ['shell-exec cmd']
+  - commands: ['shell-exec pwsh.exe']
     bindings: ['alt+enter']
 
   # Focus the next/previous active workspace defined in `workspaces` config.
