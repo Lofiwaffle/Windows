@@ -93,7 +93,6 @@ window_effects:
       style: 'square'
     transparency:
       enabled: true
-      opacity: '80%'
 
 window_behavior:
   # New windows are created in this state whenever possible.
@@ -145,9 +144,13 @@ window_rules:
         window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
       - window_process: { equals: 'PowerToys' }
         window_title: { regex: '.*? - Peek' }
-      - window_process: { equals: 'Lively' }
-        window_class: { regex: 'HwndWrapper' }
-  
+      - window_process: { equals: 'Lively' } # Rule for Lively Wallpaper
+        window_class: { regex: 'HwndWrapper' } # Associated class for Lively
+      - window_process: { regex: '(?i)^remote-viewer\\.exe$' } # Ignore remote-viewer (case-insensitive)
+      - window_process: { equals: 'MicrosoftEdge' }
+        window_title: { regex: '.*? - Picture-in-Picture' }
+      - window_title: { regex: '(?i)VM' } # Ignore any window whose title CONTAINS "VM" (case-insensitive)
+
   - commands: ["set-floating"]  # Make all Windows Terminal instances float
     match:
       - window_process: { equals: "Terminal" }
@@ -171,6 +174,12 @@ window_rules:
       - window_process: { equals: "explorer.exe" }
         window_class: { equals: "ExploreWClass" } # Also targets some explorer windows
 
+  - commands: ["set-floating"]  # Make Spotify float
+    match:
+      - window_process: { equals: "Spotify.exe" }
+      - window_process: { equals: "Spotify" } # Process name might appear without .exe
+      - window_class: { equals: "Chrome_WidgetWin_0" } # Main Spotify window class
+ 
   # Optional: If you want to combine the rules for Terminal and PowerShell
   # into a single rule, uncomment the following block and remove the previous
   # "Make all Windows Terminal instances float" and "Make Windows PowerShell float" rules.
